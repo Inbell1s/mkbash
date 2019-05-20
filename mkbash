@@ -14,6 +14,16 @@ echo "Use the full path e.g:"
 echo "'/script/run/start.py'"
 echo
 tput sgr0;
+echo
+echo "Create command or list created commands?"
+echo "create(default)/list:"
+read option
+while true; do
+if [ $option = "list" ]
+ then
+  cat /bin/mkblog
+  exit
+ else
 
 #Variable Input#
 
@@ -63,6 +73,10 @@ echo '#!/bin/bash
 
 chmod +x /bin/"$Name"
 
+#Add command to log file #
+
+echo "'$Name' - '$Prefix' '$Command'" >> /bin/mkblog
+
 tput setaf 2;
 tput bold;
 
@@ -78,4 +92,5 @@ sleep 4
 
 "$Name"
 
-
+fi
+done
