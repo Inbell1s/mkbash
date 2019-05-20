@@ -80,6 +80,7 @@ done
 #Create command file#
 
 echo '#!/bin/bash
+##mkbcf##
 '$Prefix' '$Command' "$@"' > /bin/"$Name"
 
 chmod +x /bin/"$Name"
@@ -114,7 +115,7 @@ sleep 4
                 echo "New command name:"
                 read newname
       while true; do
-        if [ -f /bin/"$oldname" ]
+        if grep "##mkbcf##" /bin/$oldname > /dev/null 
                 then
 		mv /bin/"$oldname" /bin/"$newname"
                 tput smso;
@@ -125,7 +126,7 @@ sleep 4
 		exit
         else
                 tput smso;
-		echo "Command does not exist, please use a valid command."
+		echo "Command does not exist/is not a mkbash command, please use a valid command."
 		tput rmso
 		cat mkblog
 		echo
@@ -146,7 +147,7 @@ done
 	    read delete
 	
 while true; do
-        if [ -f /bin/"$delete" ]
+        if grep "##mkbcf##" /bin/$delete > /dev/null 
                 then
                 rm /bin/"$delete"
                 tput smso;
@@ -157,7 +158,7 @@ while true; do
                 exit
 else
                 tput smso;
-                echo "Command does not exist, please use a valid command."
+                echo "Command does not exist/is not a mkbash command, please use a valid command."
                 tput rmso
                 cat /var/log/mkbash.log
                 echo
