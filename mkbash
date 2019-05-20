@@ -1,57 +1,69 @@
-#!/bin/sh
+#!/bin/bash
+
+#info#
 tput setaf 2;
 tput smso;
-echo "##FAST BASH COMMAND CREATER##"
+echo "##FAST BASH COMMAND CREATOR##"
 echo
 echo "-This script simplifies making commands for executing scripts-"
 echo "Code by Inbell1s"
 tput rmso;
-tput bold;
-echo "'Name' This is what you want to name your command."
-echo "'Prefix' The software for running your script e.g 'python2'. Leave empty if none needed."
-echo "'Command' This is the path to your script."
-echo "Use the full path e.g:"
-echo "'~/script/run/start.py'"
-echo
 tput sgr0;
 echo
-echo "Create command or list created commands?"
-echo "create/list:"
-read option
+echo
+
 while true; do
-if [ $option = "list" ]
- then
-  cat /bin/mkblog
-  exit
- else
-
-#Variable Input#
-
-echo "Name:"
-read Name
-echo
-echo "Prefix:"
-read Prefix
-echo
-echo "Command:"
-read Command
-echo
-
+	if [ -f /var/log/mkbash.log ]
+ 		then
+  		break
+	else
+  		 > /var/log/mkbash.log
+	tput smso;
+		echo "Log created."
+	tput rmso;
+	echo
+ fi
+done
+tput smso;
+echo "Options:"
+PS3='
+What would you like to do?:'
+options=("Create" "Edit" "Remove" "List" "Quit")
+tput rmso;
+select opt in "${options[@]}"
+do
+    case $opt in
+        "Create")
+		tput smso;
+		echo "Command Creation"
+		echo
+		echo "Specify the desired command name, path to script and prefix if needed"
+		tput rmso;
+		echo
+		echo "Command name:"
+		read Name
+		echo
+		echo "Path to script:"
+		read Command
+		echo
+		echo "Prefix (if desired):"
+		read Prefix
+	
 #Input validation#
 
 while true; do
-if [ -f /bin/"$Name" ]
- then
-  tput smso;
-  echo "Command already exists, please use another name."
-  tput rmso;
-  echo "New command name:"
-  read Name
- else
-  break
-fi
+	if [ -f /bin/"$Name" ]
+ 		then
+  		tput smso;
+  		echo "Command already exists, please use another name."
+  		tput rmso;
+  		echo "New command name:"
+  		read Name
+	else
+  		break
+	fi
 done
-cd
+
 while true; do
 if [ -f "$Command" ]
  then
@@ -68,14 +80,13 @@ done
 #Create command file#
 
 echo '#!/bin/bash
-
 '$Prefix' '$Command' "$@"' > /bin/"$Name"
 
 chmod +x /bin/"$Name"
 
 #Add command to log file #
 
-echo "'$Name' - '$Prefix' '$Command'" >> /bin/mkblog
+echo "'$Name' - '$Prefix' '$Command'" >> /var/log/mkbash.log
 
 tput setaf 2;
 tput bold;
@@ -91,6 +102,83 @@ tput sgr0;
 sleep 4
 
 "$Name"
+            ;;
+        "Edit")
+		tput smso;
+		echo "Edit existing command, please specify old name and new name:"
+		tput rmso;
+		echo
+                echo "Old command name:"
+                read oldname
+                echo
+                echo "New command name:"
+                read newname
+      while true; do
+        if [ -f /bin/"$oldname" ]
+                then
+		mv /bin/"$oldname" /bin/"$newname"
+                tput smso;
+                echo "Command changed from "$oldname" to "$newname"."
+                tput rmso;
+		sed -i "s/'$oldname'/'$newname'/g" /var/log/mkbash.log
+                sleep 5
+		exit
+        else
+                tput smso;
+		echo "Command does not exist, please use a valid command."
+		tput rmso
+		cat mkblog
+		echo
+		echo "Old command:"
+		read oldname
+        fi
+done
+
+            ;;
+
+
+        "Remove")
+	tput smso;
+            echo "Remove existing command."
+	    echo
+        tput rmso;	
+	    echo "Name of the command you wish to delete:"
+	    read delete
+	
+while true; do
+        if [ -f /bin/"$delete" ]
+                then
+                rm /bin/"$delete"
+                tput smso;
+                echo "Command "$delete" removed."
+                tput rmso;
+                sed -i "/'$delete'/d" /var/log/mkbash.log
+                sleep 5
+                exit
+else
+                tput smso;
+                echo "Command does not exist, please use a valid command."
+                tput rmso
+                cat /var/log/mkbash.log
+                echo
+                echo "Command you wish to delete:"
+                read delete
 
 fi
+done
+            ;;
+"List")
+        tput smso;
+            echo "List of all created commands:"
+            echo
+        tput rmso;      
+            cat /var/log/mkbash.log
+            echo
+            ;;
+
+        "Quit")
+            exit
+            ;;
+        *) echo "invalid option $REPLY";;
+    esac
 done
