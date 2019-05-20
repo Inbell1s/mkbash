@@ -28,7 +28,7 @@ tput smso;
 echo "Options:"
 PS3='
 What would you like to do?:'
-options=("Create" "Edit" "Remove" "List" "Quit")
+options=("Create" "Edit" "Remove" "List" "Show command" "Quit")
 tput rmso;
 select opt in "${options[@]}"
 do
@@ -176,6 +176,21 @@ done
             basename -a $(grep -rwlh "##mkbcf##" /bin)
             echo
             ;;
+            
+            "Show command")
+            tput smso;
+            echo "Choose the command you want to view:"
+            tput rmso;
+            echo
+            basename -a $(grep -rwlh "##mkbcf##" /bin)
+            echo
+            echo "Command name:"
+            read show
+            echo
+            echo
+            cat /bin/$show
+            ;;
+            
 
         "Quit")
             exit
