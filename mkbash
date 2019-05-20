@@ -128,7 +128,7 @@ sleep 4
                 tput smso;
 		echo "Command does not exist/is not a mkbash command, please use a valid command."
 		tput rmso
-		cat mkblog
+		basename -a $(grep -rwlh "##mkbcf##" /bin)
 		echo
 		echo "Old command:"
 		read oldname
@@ -160,7 +160,7 @@ else
                 tput smso;
                 echo "Command does not exist/is not a mkbash command, please use a valid command."
                 tput rmso
-                cat /var/log/mkbash.log
+                basename -a $(grep -rwlh "##mkbcf##" /bin)
                 echo
                 echo "Command you wish to delete:"
                 read delete
@@ -173,7 +173,7 @@ done
             echo "List of all created commands:"
             echo
         tput rmso;      
-            cat /var/log/mkbash.log
+            basename -a $(grep -rwlh "##mkbcf##" /bin)
             echo
             ;;
 
