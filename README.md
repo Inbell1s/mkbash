@@ -17,9 +17,9 @@ git clone https://github.com/Inbell1s/mkbash && cd mkbash && chmod +x mkbash && 
 
 Termux:
 
-pkg install proot
-termux-chroot
-pkg install ncurses-util
+pkg install proot &&
+termux-chroot &&
+pkg install ncurses-util &&
 git clone https://github.com/Inbell1s/mkbash && cd mkbash && chmod +x mkbash && mv mkbash /bin/mkbash
 
 
