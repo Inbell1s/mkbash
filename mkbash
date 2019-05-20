@@ -14,6 +14,9 @@ echo "Use the full path e.g:"
 echo "'/script/run/start.py'"
 echo
 tput sgr0;
+
+#Variable Input#
+
 echo "Name:"
 read Name
 echo
@@ -23,6 +26,9 @@ echo
 echo "Command:"
 read Command
 echo
+
+#Input validation#
+
 while true; do
 if [ -f /bin/"$Name" ]
  then
@@ -49,6 +55,8 @@ if [ -f "$Command" ]
 fi
 done
 
+#Create command file#
+
 echo '#!/bin/bash
 
 '$Prefix' ~'$Command' "$@"' > /bin/"$Name"
@@ -57,6 +65,8 @@ chmod +x /bin/"$Name"
 
 tput setaf 2;
 tput bold;
+
+#Finishing#
 
 echo
 echo
