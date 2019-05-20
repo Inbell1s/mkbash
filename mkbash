@@ -59,7 +59,7 @@ done
 
 echo '#!/bin/bash
 
-'$Prefix' ~'$Command' "$@"' > /bin/"$Name"
+'$Prefix' '$Command' "$@"' > /bin/"$Name"
 
 chmod +x /bin/"$Name"
 
