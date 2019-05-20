@@ -52,7 +52,7 @@ do
 #Input validation#
 
 while true; do
-	if [ -f /bin/"$Name" ]
+	if command -v $Name >/dev/null 2>&1
  		then
   		tput smso;
   		echo "Command already exists, please use another name."
