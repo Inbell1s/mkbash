@@ -7,11 +7,11 @@ echo "-This script simplifies making commands for executing scripts-"
 echo "Code by Inbell1s"
 tput rmso;
 tput bold;
-echo "'Name' This is how u want to name ur command"
+echo "'Name' This is what you want to name your command."
 echo "'Prefix' The software for running your script e.g 'python2'. Leave empty if none needed."
 echo "'Command' This is the path to your script."
 echo "Use the full path e.g:"
-echo "'/script/run/start.py'"
+echo "'~/script/run/start.py'"
 echo
 tput sgr0;
 echo
@@ -43,7 +43,7 @@ while true; do
 if [ -f /bin/"$Name" ]
  then
   tput smso;
-  echo "Command already exists, Please use another name"
+  echo "Command already exists, please use another name."
   tput rmso;
   echo "New command name:"
   read Name
@@ -58,7 +58,7 @@ if [ -f "$Command" ]
   break
  else
   tput smso;
-  echo "Script file does not exist, Please check your path."
+  echo "Script file does not exist, please check your path."
   tput rmso;
   echo "New script path:"
   read Command
