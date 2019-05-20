@@ -1,0 +1,71 @@
+#!/bin/sh
+tput setaf 2;
+tput smso;
+echo "##FAST BASH COMMAND CREATER##"
+echo
+echo "-This script simplifies making commands for executing scripts-"
+echo "Code by Inbell1s"
+tput rmso;
+tput bold;
+echo "'Name' This is how u want to name ur command"
+echo "'Prefix' The software for running your script e.g 'python2'. Leave empty if none needed."
+echo "'Command' This is the path to your script."
+echo "Use the full path e.g:"
+echo "'/script/run/start.py'"
+echo
+tput sgr0;
+echo "Name:"
+read Name
+echo
+echo "Prefix:"
+read Prefix
+echo
+echo "Command:"
+read Command
+echo
+while true; do
+if [ -f /bin/"$Name" ]
+ then
+  tput smso;
+  echo "Command already exists, Please use another name"
+  tput rmso;
+  echo "New command name:"
+  read Name
+ else
+  break
+fi
+done
+cd
+while true; do
+if [ -f "$Command" ]
+ then
+  break
+ else
+  tput smso;
+  echo "Script file does not exist, Please check your path."
+  tput rmso;
+  echo "New script path:"
+  read Command
+fi
+done
+
+echo '#!/bin/bash
+
+'$Prefix' ~'$Command' "$@"' > /bin/"$Name"
+
+chmod +x /bin/"$Name"
+
+tput setaf 2;
+tput bold;
+
+echo
+echo
+echo 'Creation complete, testing the command using "'"$Name"'"'
+
+tput sgr0;
+
+sleep 4
+
+"$Name"
+
+
