@@ -16,7 +16,7 @@ echo
 tput sgr0;
 echo
 echo "Create command or list created commands?"
-echo "create(default)/list:"
+echo "create/list:"
 read option
 while true; do
 if [ $option = "list" ]
