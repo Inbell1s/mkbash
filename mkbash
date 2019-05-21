@@ -14,6 +14,7 @@ echo "Code by Inbell1s"
 echo
 echo
 
+## Check for sbash command and create if missing ##
 while true; do
         if [ -f /bin/sbash ]
                 then
@@ -31,6 +32,8 @@ chmod +x /bin/sbash
  fi
 done
 
+## Check for logfile and create if missing ##
+
 while true; do
 	if [ -f /var/log/mkbash.log ]
  		then
@@ -43,6 +46,9 @@ while true; do
 	echo
  fi
 done
+
+##Functions##
+
 tput smso;
 echo "Options:"
 PS3='
@@ -166,13 +172,13 @@ done
 	    read delete
 	
 while true; do
-      if grep-q "##mkbcf##" /bin/$delete > /dev/null 
+      if grep -q "##mkbcf##" /bin/$delete > /dev/null 
                 then
                 rm /bin/"$delete"
                 tput smso;
                 echo "Command "$delete" removed."
                 tput rmso;
-                sed -i "/'$delete'/d" /var/log/mkbash.log
+                sed -i "s/'$delete'/'$delete' (Removed)/g" /var/log/mkbash.log
                 sleep 5
                 exit
 else
