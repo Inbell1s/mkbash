@@ -1,12 +1,16 @@
 # MakeBash 
 
 >![badge]
-> Simple and fast bash command manager.
+> **Simple and fast bash command manager.**
 
 
 This script simplifies the creation,removal and renaming Bash commands.
 
 ![screen]
+
+## Usage
+
+Use the command **mkbash** to start the wizard.
 
 
 ## Installation
