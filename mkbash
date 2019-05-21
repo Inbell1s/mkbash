@@ -13,6 +13,23 @@ echo
 echo
 
 while true; do
+        if [ -f /bin/sbash ]
+                then
+                break
+        else
+echo "#!/bin/bash
+
+tput smso;
+echo "List of all mkbash commands:"
+echo
+tput rmso
+basename -a $(grep -rwlh "##mkbcf##" /bin)
+echo" > /bin/sbash
+chmod +x /bin/sbash
+ fi
+done
+
+while true; do
 	if [ -f /var/log/mkbash.log ]
  		then
   		break
