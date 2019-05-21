@@ -1,8 +1,8 @@
 # MakeBash 
 
->![badge]
-> **Simple and fast bash command manager.**
+## **Simple and fast bash command manager.**
 
+>![badge]
 
 This script simplifies the creation,removal and renaming Bash commands.
 
