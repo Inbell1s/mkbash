@@ -1,9 +1,12 @@
-# MakeBash
+# MakeBash 
+
+>![badge]
 > Simple and fast bash command manager.
+
 
 This script simplifies the creation,removal and renaming Bash commands.
 
-![](header.png)
+
 
 ## Installation
 
@@ -23,5 +26,4 @@ git clone https://github.com/Inbell1s/mkbash && cd mkbash && chmod +x mkbash && 
 
 Code by Inbell1s.
 
-
-
+[badge]: https://img.shields.io/badge/BETA-In%20Progress-RED.svg
