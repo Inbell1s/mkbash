@@ -20,6 +20,7 @@ Use the command **mkbash** to start the wizard.
 
 Use the command **sbash** to quickly list all available mkbash commands.
 
+**On termux make sure that u have termux-chroot running.**
 ## Installation
 
 Linux:
