@@ -1,3 +1,9 @@
+<p align="center">
+  <img width="200" height="200" src="https://i.imgur.com/s0UfMVs.png">
+</p>
+
+
+
 # MakeBash 
 
 ## **Simple and fast bash command manager.**
@@ -34,3 +40,4 @@ Code by Inbell1s.
 
 [badge]: https://img.shields.io/badge/BETA-In%20Progress-RED.svg
 [screen]: https://github.com/Inbell1s/mkbash/blob/master/screen.png
+[logo]: https://i.imgur.com/s0UfMVs.png
