@@ -20,14 +20,18 @@ while true; do
                 then
                 break
         else
-echo "#!/bin/bash
-
+echo '#!/bin/bash
+##mkbcf##
 tput smso;
-echo "List of all mkbash commands:"
+list=$(basename -a $(grep -rwlh "##mkbcf##" /bin))
+echo List of all mkbash commands:
 echo
 tput rmso
 basename -a $(grep -rwlh "##mkbcf##" /bin)
-echo" > /bin/sbash
+echo
+exit
+
+' > /bin/sbash
 chmod +x /bin/sbash
  fi
 done
@@ -114,8 +118,7 @@ chmod +x /bin/"$Name"
 
 echo "'$Name' - '$Prefix' '$Command'" >> /var/log/mkbash.log
 
-tput setaf 2;
-tput bold;
+tput smso;
 
 #Finishing#
 
@@ -123,7 +126,7 @@ echo
 echo
 echo 'Creation complete, testing the command using "'"$Name"'"'
 
-tput sgr0;
+tput rmso;
 
 sleep 4
 
@@ -217,7 +220,7 @@ done
         if grep -q "##mkbcf##" /bin/$show > /dev/null 
 	  then
             cat /bin/$show
-	break
+	exit
 else
                 tput smso;
                 echo "Command does not exist/is not a mkbash command, please use a valid command."
@@ -238,12 +241,12 @@ done
 		tput smso;
 		echo "You are now up to date!"
 		tput rmso;
-	    ;;
-	    
-        "Quit")
+	   ;;
+        
+	"Quit")
             exit
             ;;
-	    
         *) echo "invalid option $REPLY";;
     esac
 done
+ 
