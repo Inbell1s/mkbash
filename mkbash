@@ -1,14 +1,16 @@
 #!/bin/bash
 
 #info#
-tput setaf 2;
 tput smso;
-echo "##FAST BASH COMMAND CREATOR##"
-echo
+echo "  __  __   _  __  ____       _      ____    _   _ ";
+echo " |  \/  | | |/ / | __ )     / \    / ___|  | | | |";
+echo " | |\/| | | ' /  |  _ \    / _ \   \___ \  | |_| |";
+echo " | |  | | | . \  | |_) |  / ___ \   ___) | |  _  |";
+echo " |_|  |_| |_|\_\ |____/  /_/   \_\ |____/  |_| |_|";
+echo "                                                  ";
+tput rmso;
 echo "-This script simplifies making commands for executing scripts-"
 echo "Code by Inbell1s"
-tput rmso;
-tput sgr0;
 echo
 echo
 
@@ -132,7 +134,7 @@ sleep 4
                 echo "New command name:"
                 read newname
       while true; do
-        if grep "##mkbcf##" /bin/$oldname > /dev/null 
+     if grep -q "##mkbcf##" /bin/$oldname > /dev/null 
                 then
 		mv /bin/"$oldname" /bin/"$newname"
                 tput smso;
@@ -145,7 +147,7 @@ sleep 4
                 tput smso;
 		echo "Command does not exist/is not a mkbash command, please use a valid command."
 		tput rmso
-		basename -a $(grep -rwlh "##mkbcf##" /bin)
+		basename -a $(grep -qrwlh "##mkbcf##" /bin)
 		echo
 		echo "Old command:"
 		read oldname
@@ -164,7 +166,7 @@ done
 	    read delete
 	
 while true; do
-        if grep "##mkbcf##" /bin/$delete > /dev/null 
+      if grep-q "##mkbcf##" /bin/$delete > /dev/null 
                 then
                 rm /bin/"$delete"
                 tput smso;
@@ -205,7 +207,24 @@ done
             read show
             echo
             echo
+ while true; do
+        if grep -q "##mkbcf##" /bin/$show > /dev/null 
+	  then
             cat /bin/$show
+	break
+else
+                tput smso;
+                echo "Command does not exist/is not a mkbash command, please use a valid command."
+                tput rmso
+echo
+echo "Available commands:"
+                basename -a $(grep -rwlh "##mkbcf##" /bin)
+                echo
+                echo "Command you wish to show:"
+                read show
+
+fi
+done
             ;;
             
 
