@@ -66,14 +66,41 @@ do
 		tput smso;
 		echo "Command Creation"
 		echo
-		echo "Specify the desired command name, path to script and prefix if needed"
+		echo "Specify the desired command name, full command of script and prefix if needed"
 		tput rmso;
 		echo
 		echo "Command name:"
 		read Name
+			while true; do
+			 if [ "$Name" = "" ]
+			  then
+			   tput smso;
+    			   echo "No name given!"
+			   tput rmso;
+			   echo
+			   echo "Please set the command name:"
+		   	   read Name
+			  else
+			   break
+			 fi
+			done
 		echo
-		echo "Path to script:"
+		echo "Full script command:"
 		read Command
+			while true; do
+                         if [ "$Command" = "" ]
+                          then
+                           tput smso;
+                           echo "No command given!"
+                           tput rmso;
+                           echo
+                           echo "Please set the command:"
+                           read Command
+                          else
+                           break
+                         fi
+                        done
+
 		echo
 		echo "Prefix (if desired):"
 		read Prefix
@@ -94,14 +121,14 @@ while true; do
 done
 
 while true; do
-if [ -f "$Command" ]
+if command -v $Command >/dev/null 2>&1
  then
   break
  else
   tput smso;
-  echo "Script file does not exist, please check your path."
+  echo "Script does not exist, please check your path."
   tput rmso;
-  echo "New script path:"
+  echo "New script command:"
   read Command
 fi
 done
@@ -139,9 +166,47 @@ sleep 4
 		echo
                 echo "Old command name:"
                 read oldname
+			while true; do
+			 if [ "$oldname" = "" ]
+			  then
+			   tput smso;
+    			   echo "No name given!"
+			   tput rmso;
+			   echo
+			   echo "Please set the old command name:"
+		   	   read oldname
+			  else
+			   break
+			 fi
+			done
                 echo
                 echo "New command name:"
                 read newname
+			while true; do
+			 if [ "$newname" = "" ]
+			  then
+			   tput smso;
+    			   echo "No name given!"
+			   tput rmso;
+			   echo
+			   echo "Please set the new command name:"
+		   	   read Name
+			  else
+			   break
+			 fi
+			done
+while true; do
+	if command -v $newname >/dev/null 2>&1
+ 		then
+  		tput smso;
+  		echo "Command already exists, please use another name."
+  		tput rmso;
+  		echo "New command name:"
+  		read newname
+	else
+  		break
+	fi
+done
       while true; do
      if grep -q "##mkbcf##" /bin/$oldname > /dev/null 
                 then
@@ -173,6 +238,19 @@ done
         tput rmso;	
 	    echo "Name of the command you wish to delete:"
 	    read delete
+		while true; do
+			 if [ "$delete" = "" ]
+			  then
+			   tput smso;
+    			   echo "No name given!"
+			   tput rmso;
+			   echo
+			   echo "Please specify the command name to delete:"
+		   	   read delete
+			  else
+			   break
+			 fi
+			done
 	
 while true; do
       if grep -q "##mkbcf##" /bin/$delete > /dev/null 
@@ -207,13 +285,26 @@ done
             
             "Show command")
             tput smso;
-            echo "Choose the command you want to view:"
+            echo "Choose the command you want to show:"
             tput rmso;
             echo
             basename -a $(grep -rwlh "##mkbcf##" /bin)
             echo
             echo "Command name:"
             read show
+			while true; do
+			 if [ "$show" = "" ]
+			  then
+			   tput smso;
+    			   echo "No name given!"
+			   tput rmso;
+			   echo
+			   echo "Please specify the command name to show:"
+		   	   read show
+			  else
+			   break
+			 fi
+			done
             echo
             echo
  while true; do
