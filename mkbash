@@ -53,7 +53,7 @@ tput smso;
 echo "Options:"
 PS3='
 What would you like to do?:'
-options=("Create" "Edit" "Remove" "List" "Show command" "Quit")
+options=("Create" "Edit" "Remove" "List" "Show command" "Update" "Quit")
 tput rmso;
 select opt in "${options[@]}"
 do
@@ -233,11 +233,17 @@ fi
 done
             ;;
             
-
+	"Update")
+		wget https://raw.githubusercontent.com/Inbell1s/mkbash/master/mkbash -q -O /bin/mkbash 
+		tput smso;
+		echo "You are now up to date!"
+		tput rmso;
+	    ;;
+	    
         "Quit")
             exit
             ;;
+	    
         *) echo "invalid option $REPLY";;
     esac
 done
- 
