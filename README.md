@@ -11,6 +11,7 @@ This script simplifies the creation,removal and renaming Bash commands.
 ## Usage
 
 Use the command **mkbash** to start the wizard.
+
 Use the command **sbash** to quickly list all available mkbash commands.
 
 ## Installation
