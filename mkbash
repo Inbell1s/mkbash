@@ -340,4 +340,4 @@ done
         *) echo "invalid option $REPLY";;
     esac
 done
- 
+exit 0
