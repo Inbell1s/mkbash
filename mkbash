@@ -1,4 +1,34 @@
-#!/bin/bash
+#!/bin/bash 
+#v2.0#
+
+#Checking required files/directories#
+
+##Check for mkbash folder.##
+if [ ! -d ~/.mkbash ]
+then
+mkdir -p ~/.mkbash 
+echo
+echo "mkbash directory created"
+fi
+
+##Check for script folder.##
+if [ ! -d ~/.mkbash/scripts ]
+then
+mkdir ~/.mkbash/scripts
+echo
+echo "mkbash/scripts directory created"
+fi
+
+##Check mkbashrc##
+if [ ! -f ~/.mkbashrc ]
+then
+echo > ~/.mkbashrc
+echo "source ~/.mkbashrc" >> ~/.bashrc
+echo "alias mkbsource='source ~/.bashrc'"
+echo
+echo ".mkbashrc created and added to bashrc"
+source ~/.bashrc
+fi
 
 #info#
 tput smso;
@@ -13,60 +43,22 @@ echo "-This script simplifies making commands for executing scripts-"
 echo "Code by Inbell1s"
 echo
 echo
-
-## Check for sbash command and create if missing ##
-while true; do
-        if [ -f /bin/sbash ]
-                then
-                break
-        else
-echo '#!/bin/bash
-##mkbcf##
-tput smso;
-list=$(basename -a $(grep -rwlh "##mkbcf##" /bin))
-echo List of all mkbash commands:
-echo
-tput rmso
-basename -a $(grep -rwlh "##mkbcf##" /bin)
-echo
-exit
-
-' > /bin/sbash
-chmod +x /bin/sbash
- fi
-done
-
-## Check for logfile and create if missing ##
-
-while true; do
-	if [ -f /var/log/mkbash.log ]
- 		then
-  		break
-	else
-  		 > /var/log/mkbash.log
-	tput smso;
-		echo "Log created."
-	tput rmso;
-	echo
- fi
-done
-
-##Functions##
-
 tput smso;
 echo "Options:"
 PS3='
 What would you like to do?:'
-options=("Create" "Edit" "Remove" "List" "Show command" "Update" "Quit")
+options=("Create" "Rename" "Delete" "List" "Show" "Update" "Quit")
 tput rmso;
 select opt in "${options[@]}"
 do
     case $opt in
         "Create")
+
+#Create option#
 		tput smso;
 		echo "Command Creation"
 		echo
-		echo "Specify the desired command name, full command of script and prefix if needed"
+		echo "Specify the desired command name and full command of script"
 		tput rmso;
 		echo
 		echo "Command name:"
@@ -102,8 +94,6 @@ do
                         done
 
 		echo
-		echo "Prefix (if desired):"
-		read -r Prefix
 	
 #Input validation#
 
@@ -126,42 +116,36 @@ if command -v $Command >/dev/null 2>&1
   break
  else
   tput smso;
-  echo "Script does not exist, please check your path."
+  echo "This command does not seem to run. Please use a runnable command."
   tput rmso;
   echo "New script command:"
   read -r Command
 fi
 done
 
-#Create command file#
-
-echo '#!/bin/bash
+#Creating command#
+echo "alias "$Name"='~/.mkbash/scripts/"$Name"'" >> ~/.mkbashrc
+echo "#!/bin/bash
 ##mkbcf##
-'$Prefix' '$Command' "$@"' > /bin/"$Name"
+"$Command" "$@"" > ~/.mkbash/scripts/"$Name"
 
-chmod +x /bin/"$Name"
-
-#Add command to log file #
-
-echo "'$Name' - '$Prefix' '$Command'" >> /var/log/mkbash.log
-
+#Make executable and source .mkbashrc#
+chmod +x ~/.mkbash/scripts/"$Name"
 tput smso;
 
 #Finishing#
 
 echo
 echo
-echo 'Creation complete, testing the command using "'"$Name"'"'
-
+echo 'Creation complete, test your command using: "'"$Name"'"'
 tput rmso;
+exec bash
+exit 0
+;;
 
-sleep 4
-
-"$Name"
-            ;;
-        "Edit")
+"Rename")
 		tput smso;
-		echo "Edit existing command, please specify old name and new name:"
+		echo "Rename existing command, please specify old name and new name:"
 		tput rmso;
 		echo
                 echo "Old command name:"
@@ -195,6 +179,7 @@ sleep 4
 			   break
 			 fi
 			done
+
 while true; do
 	if command -v $newname >/dev/null 2>&1
  		then
@@ -207,34 +192,36 @@ while true; do
   		break
 	fi
 done
+
       while true; do
-     if grep -q "##mkbcf##" /bin/$oldname > /dev/null 
+     if ~/.mkbash/scripts/"$oldname" > /dev/null 
                 then
-		mv /bin/"$oldname" /bin/"$newname"
-                tput smso;
+		mv ~/.mkbash/scripts/"$oldname" ~/.mkbash/scripts/"$newname"
+	        sed -i "s/alias $oldname/alias $newname/g" ~/.mkbashrc
+		sed -i "s/scripts\\/$oldname/scripts\\/$newname/g" ~/.mkbashrc
+		tput smso;
                 echo "Command changed from "$oldname" to "$newname"."
                 tput rmso;
-		sed -i "s/'$oldname'/'$newname'/g" /var/log/mkbash.log
-                sleep 5
 		exit
         else
                 tput smso;
 		echo "Command does not exist/is not a mkbash command, please use a valid command."
 		tput rmso
-		basename -a $(grep -qrwlh "##mkbcf##" /bin)
+		ls ~/.mkbash/scripts/
 		echo
 		echo "Old command:"
 		read -r oldname
         fi
 done
+exec bash
+exit 0
+;;
 
-            ;;
-
-
-        "Remove")
+"Delete")
 	tput smso;
             echo "Remove existing command."
 	    echo
+ls ~/.mkbash/scripts/
         tput rmso;	
 	    echo "Name of the command you wish to delete:"
 	    read -r delete
@@ -253,43 +240,44 @@ done
 			done
 	
 while true; do
-      if grep -q "##mkbcf##" /bin/$delete > /dev/null 
+      if [ -f ~/.mkbash/scripts/"$delete" ]
                 then
-                rm /bin/"$delete"
-                tput smso;
+                rm ~/.mkbash/scripts/"$delete"
+                sed -i "s/alias $delete/\\#\\# DELETED alias $delete/g" ~/.mkbashrc
+		tput smso;
                 echo "Command "$delete" removed."
                 tput rmso;
-                sed -i "s/'$delete'/'$delete' (Removed)/g" /var/log/mkbash.log
-                sleep 5
                 exit
 else
                 tput smso;
                 echo "Command does not exist/is not a mkbash command, please use a valid command."
                 tput rmso
-                basename -a $(grep -rwlh "##mkbcf##" /bin)
+                ls ~/.mkbash/scripts/
                 echo
                 echo "Command you wish to delete:"
                 read -r delete
 
 fi
 done
+exec bash
+exit 0
             ;;
 "List")
         tput smso;
             echo "List of all created commands:"
             echo
         tput rmso;      
-            basename -a $(grep -rwlh "##mkbcf##" /bin)
+            ls ~/.mkbash/scripts/
             echo
+	    exit 0
             ;;
-            
-            "Show command")
+
+ "Show")
             tput smso;
             echo "Choose the command you want to show:"
             tput rmso;
             echo
-            basename -a $(grep -rwlh "##mkbcf##" /bin)
-            echo
+            ls ~/.mkbash/scripts/
             echo "Command name:"
             read -r show
 			while true; do
@@ -308,9 +296,11 @@ done
             echo
             echo
  while true; do
-        if grep -q "##mkbcf##" /bin/$show > /dev/null 
+        if [ -f ~/.mkbash/scripts/"$show" ] 
 	  then
-            cat /bin/$show
+	printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' -
+            cat ~/.mkbash/scripts/$show
+	printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' -
 	exit
 else
                 tput smso;
@@ -318,26 +308,29 @@ else
                 tput rmso
 echo
 echo "Available commands:"
-                basename -a $(grep -rwlh "##mkbcf##" /bin)
+                ls ~/.mkbash/scripts/
                 echo
                 echo "Command you wish to show:"
                 read -r show
 
 fi
 done
+exit 0
             ;;
-            
-	"Update")
+"Update")
 		wget https://raw.githubusercontent.com/Inbell1s/mkbash/master/mkbash -q -O /bin/mkbash 
 		tput smso;
 		echo "You are now up to date!"
 		tput rmso;
+		exit
 	   ;;
         
 	"Quit")
             exit
             ;;
         *) echo "invalid option $REPLY";;
-    esac
+esac
 done
 exit 0
+
+
