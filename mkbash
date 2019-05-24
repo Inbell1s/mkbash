@@ -221,8 +221,11 @@ exit 0
 	tput smso;
             echo "Remove existing command."
 	    echo
+	    echo "Available commands:"
+        tput rmso;
 ls ~/.mkbash/scripts/
-        tput rmso;	
+echo
+	
 	    echo "Name of the command you wish to delete:"
 	    read -r delete
 		while true; do
